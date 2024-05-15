@@ -62,7 +62,7 @@ public class MainActivity2 extends AppCompatActivity {
                             clicked = 0;
                         }
                         else if (clicked == 0) {
-
+                            turnOver = false;
                         }
                     }
                 }
