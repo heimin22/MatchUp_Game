@@ -24,6 +24,7 @@ public class MainActivity2 extends AppCompatActivity {
     private boolean turnOver = false;
     private int lastClicked = -1;
     private int currentClicked = -1;
+    private int matchedPairs = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         TextView congratsText = findViewById(R.id.congratsText);
+        congratsText.setVisibility(View.INVISIBLE);
+
         Button backButton = findViewById(R.id.backButton);
         Button restartButton = findViewById(R.id.restartButton);
 
@@ -69,6 +72,11 @@ public class MainActivity2 extends AppCompatActivity {
                             imageButtons[lastClicked].setClickable(false);
                             turnOver = false;
                             clicked = 0;
+                            matchedPairs++;
+                            if (matchedPairs == 0) {
+                                congratsText.setText("Complete!");
+                                congratsText.setVisibility(View.VISIBLE);
+                            }
                         }
                         else {
                             flipCardsBack(lastClicked, currentClicked);
