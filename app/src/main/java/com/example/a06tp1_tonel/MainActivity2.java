@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,12 +23,14 @@ public class MainActivity2 extends AppCompatActivity {
     private int clicked = 0;
     private boolean turnOver = false;
     private int lastClicked = -1;
+    private int currentClicked = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        TextView congratsText = findViewById(R.id.congratsText);
         Button backButton = findViewById(R.id.backButton);
         Button restartButton = findViewById(R.id.restartButton);
 
@@ -54,19 +57,21 @@ public class MainActivity2 extends AppCompatActivity {
                         if (clicked == 0) {
                             lastClicked = finalI;
                         }
+                        else {
+                            currentClicked = finalI;
+                        }
                         clicked++;
                     }
-
                     if (clicked == 2) {
                         turnOver = true;
-                        if (imageButtons[finalI].getDrawable().getConstantState().equals(imageButtons[lastClicked].getDrawable().getConstantState())) {
-                            imageButtons[finalI].setClickable(false);
+                        if (imageButtons[currentClicked].getDrawable().getConstantState().equals(imageButtons[lastClicked].getDrawable().getConstantState())) {
+                            imageButtons[currentClicked].setClickable(false);
                             imageButtons[lastClicked].setClickable(false);
                             turnOver = false;
                             clicked = 0;
                         }
                         else {
-                            flipCardsBack();
+                            flipCardsBack(lastClicked, currentClicked);
                         }
                     }
                 }
@@ -93,6 +98,7 @@ public class MainActivity2 extends AppCompatActivity {
         clicked = 0;
         turnOver = false;
         lastClicked = -1;
+        currentClicked = -1;
         Collections.shuffle(images);
         for (int i = 0; i < 9; i++) {
             imageButtons[i].setImageResource(cardBack);
@@ -100,9 +106,9 @@ public class MainActivity2 extends AppCompatActivity {
         }
     }
 
-    private void flipCardsBack() {
+    private void flipCardsBack(int lastClicked, int currentClicked) {
         imageButtons[lastClicked].setImageResource(cardBack);
-        imageButtons[clicked - 1].setImageResource(cardBack);
+        imageButtons[currentClicked].setImageResource(cardBack);
         clicked = 0;
         turnOver = false;
     }
