@@ -2,6 +2,7 @@ package com.example.a06tp1_tonel;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,9 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        Button backButton = findViewById(R.id.backButton);
+        Button restartButton = findViewById(R.id.restartButton);
+
         imageButtons[0] = findViewById(R.id.imageButton1);
         imageButtons[1] = findViewById(R.id.imageButton2);
         imageButtons[2] = findViewById(R.id.imageButton3);
@@ -41,7 +45,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         for (int i = 0; i < 9; i++) {
             imageButtons[i].setBackgroundResource(cardBack);
-            final int finalI = 1;
+            final int finalI = i;
             imageButtons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -61,13 +65,45 @@ public class MainActivity2 extends AppCompatActivity {
                             turnOver = false;
                             clicked = 0;
                         }
-                        else if (clicked == 0) {
-                            turnOver = false;
+                        else {
+                            flipCardsBack();
                         }
                     }
                 }
             });
         }
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                restartGame();
+            }
+        });
+    }
+
+    private void restartGame() {
+        clicked = 0;
+        turnOver = false;
+        lastClicked = -1;
+        Collections.shuffle(images);
+        for (int i = 0; i < 9; i++) {
+            imageButtons[i].setImageResource(cardBack);
+            imageButtons[i].setClickable(true);
+        }
+    }
+
+    private void flipCardsBack() {
+        imageButtons[lastClicked].setImageResource(cardBack);
+        imageButtons[clicked - 1].setImageResource(cardBack);
+        clicked = 0;
+        turnOver = false;
     }
 }
