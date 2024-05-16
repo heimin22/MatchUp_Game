@@ -16,7 +16,7 @@ import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    private List<Integer> images = new ArrayList<>(Arrays.asList(R.drawable.camel, R.drawable.coala, R.drawable.fox, R.drawable.lion, R.drawable.monkey, R.drawable.wolf, R.drawable.camel, R.drawable.coala, R.drawable.fox, R.drawable.lion, R.drawable.monkey, R.drawable.wolf));
+    private List<Integer> images = new ArrayList<>(Arrays.asList(R.drawable.camel, R.drawable.coala, R.drawable.fox, R.drawable.camel, R.drawable.coala, R.drawable.fox, R.drawable.camel, R.drawable.coala, R.drawable.fox));
     private ImageButton[] imageButtons = new ImageButton[9];
 
     private int cardBack = R.drawable.blackrec;
@@ -25,13 +25,14 @@ public class MainActivity2 extends AppCompatActivity {
     private int lastClicked = -1;
     private int currentClicked = -1;
     private int matchedPairs = 0;
+    private TextView congratsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        TextView congratsText = findViewById(R.id.congratsText);
+        congratsText = findViewById(R.id.congratsText);
         congratsText.setVisibility(View.INVISIBLE);
 
         Button backButton = findViewById(R.id.backButton);
@@ -73,7 +74,7 @@ public class MainActivity2 extends AppCompatActivity {
                             turnOver = false;
                             clicked = 0;
                             matchedPairs++;
-                            if (matchedPairs == 0) {
+                            if (matchedPairs == 3) {
                                 congratsText.setText("Complete!");
                                 congratsText.setVisibility(View.VISIBLE);
                             }
@@ -112,6 +113,8 @@ public class MainActivity2 extends AppCompatActivity {
             imageButtons[i].setImageResource(cardBack);
             imageButtons[i].setClickable(true);
         }
+        congratsText.setText("");
+        congratsText.setVisibility(View.INVISIBLE);
     }
 
     private void flipCardsBack(int lastClicked, int currentClicked) {
